@@ -1,6 +1,10 @@
+using ApiTrueHome.Aplicacion;
+using ApiTrueHome.Persistencia;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +30,12 @@ namespace ApiTrueHome
         {
 
             services.AddControllers();
+
+            services.AddDbContext<ContextoProperty>(options => {
+                options.UseNpgsql(Configuration.GetConnectionString("ConexionDatabase"));
+            });
+
+            services.AddMediatR(typeof(Nuevo.Manejador).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
