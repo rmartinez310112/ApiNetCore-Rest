@@ -25,9 +25,20 @@ namespace ApiTrueHome.Aplicacion
             }
             public async Task<List<Property>> Handle(PropertyList request, CancellationToken cancellationToken)
             {
-                var propertys = await _contexto.Property.ToListAsync();
+                var properties = await _contexto.Property.ToListAsync();
+                List<Property> list = new List<Property>();
 
-                return propertys;
+                foreach (var i in properties)
+                {
+                    Property prop = new Property() { 
+                    property_id = i.property_id,
+                    title = i.title,
+                    address = i.address
+                    };
+                    list.Add(prop);
+                }
+
+                return list;
             }
         }
     }
